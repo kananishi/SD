@@ -1,15 +1,37 @@
 import socket, select, string, sys
-import linda
+
+#Helper function (formatting)
+def display() :
+    you="You: "
+    sys.stdout.write(you)
+    sys.stdout.flush()
 
 def main():
 
-    blog,name = linda.connect()
+    if len(sys.argv)<2:
+        host = raw_input("Enter host ip address: ")
+    else:
+        host = sys.argv[1]
+
+    port = 32000
+
+    #asks for user name
+    name=raw_input("Enter username: ")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(2)
+
+    # connecting host
+    s.connect((host, port))
+
+    #if connected
+    # s.send(name)
+    # display()
     while 1:
         socket_list = [sys.stdin, s]
-        
+
         # Get the list of sockets which are readable
         rList, wList, error_list = select.select(socket_list , [], [])
-        
+
         for sock in rList:
             #incoming message from server
             if sock == s:
@@ -17,16 +39,21 @@ def main():
                 if not data :
                     sys.exit()
                 else :
-                    sys.stdout.write(str(data,'utf-8'))
-                    linda.display()
-        
+                    sys.stdout.write(data)
+                    # display()
+
             #user entered a message
             else :
-		msg=sys.stdin.readline()
-                #s.send(msg.encode('utf-8'))
-                #linda.display()
-		topic = sys.stdin.readline()
+                service = raw_input("Which service to use? (in, out, rd) ")
+                subject = raw_input("Enter a subject: ")
+                text = ""
+                if service == "in" or service == "out":
+                    text = raw_input("Enter the text: ")
 
-                linda.out(blog,name,topic,msg)
+                msg = "<service>"+service+"</service><user>"+name+"</user><subject>"+subject+"</subject><text>"+text+"</text>"
+
+                s.send(msg)
+                # display()
+
 if __name__ == "__main__":
     main()
