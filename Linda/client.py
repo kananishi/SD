@@ -1,6 +1,10 @@
 import socket, select, string, sys
+#import constCS
+HOST = '127.0.0.1'
 
-#Helper function (formatting)
+'''
+    Helper function (formatting)
+'''
 def display() :
     you="You: "
     sys.stdout.write(you)
@@ -8,19 +12,21 @@ def display() :
 
 def main():
 
-    if len(sys.argv)<2:
-        host = raw_input("Enter host ip address: ")
-    else:
+    # Define the server ip adress and port
+    if len(sys.argv)>2:
         host = sys.argv[1]
+        
+    else:
+        host = HOST
 
     port = 32000
 
-    #asks for user name
-    name=raw_input("Enter username: ")
+    # Asks for user name
+    name=input("Enter username: ")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
 
-    # connecting host
+    # Connecting host
     s.connect((host, port))
 
     #if connected
@@ -40,20 +46,19 @@ def main():
                     sys.exit()
                 else :
                     sys.stdout.write(data)
-                    # display()
+                    display()
 
             #user entered a message
             else :
-                service = raw_input("Which service to use? (in, out, rd) ")
-                subject = raw_input("Enter a subject: ")
+                service = input("Which service to use? (in, out, rd): \n")
+                subject = input("Enter a subject: ")
                 text = ""
                 if service == "in" or service == "out":
-                    text = raw_input("Enter the text: ")
+                    text = input("Enter the text: ")
 
                 msg = "<service>"+service+"</service><user>"+name+"</user><subject>"+subject+"</subject><text>"+text+"</text>"
 
-                s.send(msg)
-                # display()
+                s.send(msg.encode('utf-8'))
 
 if __name__ == "__main__":
     main()

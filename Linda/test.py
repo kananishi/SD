@@ -29,9 +29,9 @@ while(fContinue == 1):
                 all_texts += owner + ": " + text + "\n"
         else:
             all_texts = "No entries found for given subject."
-        print all_texts
+        print(all_texts)
     else:
-        print "Invalid service."
+        print("Invalid service.")
 
 
     #print tuple_space

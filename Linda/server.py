@@ -1,9 +1,16 @@
+'''
+    $ python3 server.py
+'''
 import socket, select, re, linda
+
 port = 32000
-host = "localhost"
+host = "127.0.0.1"
 
 tuple_space = []
-#Function to send message to all connected clients
+
+'''
+    Send message to specific user
+'''
 def send_to_user (sock, message):
     #Message not forwarded to server and sender itself
     for socket in connected_list:
@@ -15,6 +22,10 @@ def send_to_user (sock, message):
                 socket.close()
                 connected_list.remove(socket)
 
+'''
+    Create a conection between a client and the server
+    if the connection is accepted append the client to the list of connected
+'''
 def create_connection():
     sockfd, addr = server_socket.accept()
     # name=sockfd.recv(buffer)
@@ -27,13 +38,16 @@ def create_connection():
     # sockfd.send("Welcome to chat room. Enter 'tata' anytime to exit\n")
     # send_to_all(sockfd, name+" joined the conversation \n")
 
+'''
+    Receive and process a message arrived
+'''
 def msg_arrived(sock):
 
     # Data from client
-    data1 = sock.recv(buffer)
-    #print "sock is: ",sock
-    # data=data1[:data1.index("\n")]
-    #print "\ndata received: ",data
+    # Data format: <service:out,in,rd> <user_name> <subject> <text>
+    data = sock.recv(buffer)
+    data1 = str(data,'utf-8')
+    # System message
     msg = ""
     service = re.search("<service>(.*)</service>",data1)
     if service:
@@ -73,22 +87,8 @@ def msg_arrived(sock):
     else:
         msg = "Service not found\n"
 
-    print msg
+    print(msg)
     send_to_user(sock, msg)
-
-    #get addr of client sending the message
-    # i,p=sock.getpeername()
-    # if data == "quit":
-    #     msg=record[(i,p)]+" left the conversation \n"
-    #     send_to_all(sock,msg)
-    #     print "Client (%s, %s) is offline" % (i,p)," [",record[(i,p)],"]"
-    #     del record[(i,p)]
-    #     connected_list.remove(sock)
-    #     sock.close()
-    #
-    # else:
-    #     msg="\r"+record[(i,p)]+": "+"\33[0m"+data+"\n"
-    #     send_to_all(sock,msg)
 
 
 name=""
@@ -122,3 +122,6 @@ while True:
             msg_arrived(sock)
 
 server_socket.close()
+
+if __name__ == "__main__":
+    main()
