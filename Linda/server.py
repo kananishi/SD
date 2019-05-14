@@ -16,7 +16,7 @@ def send_to_user (sock, message):
     for socket in connected_list:
         if socket == sock :
             try :
-                socket.send(message)
+                socket.send(message.encode('utf-8'))
             except :
                 # if connection not available
                 socket.close()
