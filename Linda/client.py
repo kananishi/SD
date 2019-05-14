@@ -1,3 +1,7 @@
+'''
+    host default(loopback): $python3 client.py
+    set host: $ python3 client.py <host address>
+'''
 import socket, select, string, sys
 #import constCS
 HOST = '127.0.0.1'
