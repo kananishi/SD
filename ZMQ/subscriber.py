@@ -1,7 +1,7 @@
 import zmq
 
 HOST = "127.0.0.1"
-PORT = "8888"
+PORT = "8887"
 
 context = zmq.Context()
 s = context.socket(zmq.SUB)
