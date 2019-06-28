@@ -5,6 +5,10 @@ from multiprocessing import Process
 import random
 import markets_companies
 
+""" Funcao pub
+		atualiza o valor das acoes de um mercado
+		Recebe como parametros o mercado e o intervalo de tempo em que o valor das acoes sera atualizado	
+"""
 def pub(process_id, sleep_time):
 	port = "5559"
 	context = zmq.Context()
@@ -17,6 +21,7 @@ def pub(process_id, sleep_time):
 		#messagedata = markets_companies.markets[process_id]
 		messagedata = ""
 		logMessage = ""
+		# Atualiza o valor de cada acao com um valor aleatorio
 		for i in range(0, len(markets_companies.companies[markets_companies.markets[process_id]])):
 			if len(stock_value) < len(markets_companies.companies[markets_companies.markets[process_id]]):
 				stock_value.append(random.randrange(100, 999999)/100)
@@ -27,11 +32,15 @@ def pub(process_id, sleep_time):
 
 		#messagedata = stock_value
 		print("%s\n%s" % (markets_companies.markets[process_id], logMessage))
+		# envia o valor da acoes ao broker
 		socket.send_string("%d %s" % (process_id, messagedata))
+		# Aguarda o intervalo de tempo definido 
 		time.sleep(sleep_time)
 
 def main():
+	# Atualiza o valor das acoes da lista de mercados
 	for i in range(0,len(markets_companies.markets)):
+		# Cria uma thread para cada mercado de acoes
 		process = Process(target=pub, args = (i, int(sys.argv[1])))
 		process.start()
 		#process.join()

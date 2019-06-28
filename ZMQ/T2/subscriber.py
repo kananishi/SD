@@ -14,8 +14,11 @@ def sub(process_id):
 	# Socket to talk to server
 	context = zmq.Context()
 	socket = context.socket(zmq.SUB)
+
+	# Conecta-se ao broker
 	print("Collecting updates from server...")
 	socket.connect ("tcp://localhost:%s" % port)
+	
 	topicfilter = process_id
 	socket.setsockopt_string(zmq.SUBSCRIBE, topicfilter)
 	while True:
@@ -31,13 +34,14 @@ def sub(process_id):
 
 def main():
 
-  print("Escolha um mercado da lista usando seu numero:")
-  for m in range(0, len(markets_companies.markets)):
-	  print(str(m)+". "+markets_companies.markets[m])
+	# Seleciona as acoes de qual mercado deseja-se visualizar
+	print("Escolha um mercado da lista usando seu numero:")
+		for m in range(0, len(markets_companies.markets)):
+		print(str(m)+". "+markets_companies.markets[m])
 
-  topic = input()
-  _ = system("clear")
-  sub(topic)
+	topic = input()
+	_ = system("clear")
+	sub(topic)
 
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@ import zmq
 
 def main():
     context = zmq.Context(1)
-        # Socket facing clients
+    # Socket facing clients
     frontend = context.socket(zmq.SUB)
     frontend.bind("tcp://*:5559")
 

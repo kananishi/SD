@@ -1,3 +1,10 @@
+'''
+    Linda tuplespace implementation for blog system
+    Authors:
+        Guilherme Nishi Kanashiro - 628298
+        Rodolfo Krambeck Asbahr - 628042
+'''
+
 
 '''
     Function to produce a tuple, writing it into tuplespace

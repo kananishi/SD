@@ -1,3 +1,4 @@
+# Lista dos mercados dos principais mercados de acoes
 markets = ["New York Stock Exchange"
             , "NASDAQ"
             # , "Japan Exchange Group"
@@ -5,6 +6,7 @@ markets = ["New York Stock Exchange"
            # "London Stock Exchange Group", "Shenzhen Stock Exchange"]
            ]
 
+# Lista de acoes de cada mercado
 companies = {"New York Stock Exchange" : ["BABA", "V", "JNJ", "XOM", "WMT", "PG",
                                         "MA", "BAC", "DIS", "PFE", "T", "VZ",
                                         "UNH", "CVX", "KO", "HD", "MRK", "WFC",
