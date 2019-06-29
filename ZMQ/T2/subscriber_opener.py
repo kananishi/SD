@@ -12,13 +12,10 @@ def main():
 
 	subscriber_script = "subscriber.py"
 
+	# Inicia os subscribers
 	for i in range(0, int(sys.argv[1])):
 		cwd = os.getcwd()
-		# set environment, start new shell
-		p = Popen(["gnome-terminal", "-e", "python3 "+cwd+"/"+subscriber_script], stdin=PIPE)   
-		#p.communicate(str.encode('python3 /home/rodolfo/Desktop/ZMQ/sub.py')) # pass commands to the opened shell
-	#process.join()
-
-
+		p = Popen(["gnome-terminal", "-e", "python3 "+cwd+"/"+subscriber_script], stdin=PIPE)   # set environment, start new shell
+	
 if __name__ == '__main__':
 	main()

@@ -15,10 +15,10 @@ def sub(process_id):
 	context = zmq.Context()
 	socket = context.socket(zmq.SUB)
 
-	# Conecta-se ao broker
+	# Conecta-se ao broker(proxy)
 	print("Collecting updates from server...")
 	socket.connect ("tcp://localhost:%s" % port)
-	
+
 	# filtra as mensagens de acordo com o mercado escolhido
 	topicfilter = process_id
 	socket.setsockopt_string(zmq.SUBSCRIBE, topicfilter)
@@ -37,7 +37,7 @@ def main():
 
 	# Seleciona as acoes de qual mercado deseja-se visualizar
 	print("Escolha um mercado da lista usando seu numero:")
-		for m in range(0, len(markets_companies.markets)):
+	for m in range(0, len(markets_companies.markets)):
 		print(str(m)+". "+markets_companies.markets[m])
 
 	topic = input()

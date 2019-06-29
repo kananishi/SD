@@ -11,7 +11,7 @@ Funcao pub
 	Recebe como parametros o mercado e o intervalo de tempo em que o valor das acoes sera atualizado	
 """
 def pub(process_id, sleep_time):
-	# Cria conexao com o broker
+	# Cria conexao com o broker(proxy)
 	port = "5559"
 	context = zmq.Context()
 	socket = context.socket(zmq.PUB)
@@ -41,8 +41,8 @@ def pub(process_id, sleep_time):
 
 def main():
 	# Atualiza o valor das acoes da lista de mercados
+	# Cria uma thread para cada mercado de acoes
 	for i in range(0,len(markets_companies.markets)):
-		# Cria uma thread para cada mercado de acoes
 		process = Process(target=pub, args = (i, int(sys.argv[1])))
 		process.start()
 		#process.join()
