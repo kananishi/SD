@@ -19,6 +19,7 @@ def sub(process_id):
 	print("Collecting updates from server...")
 	socket.connect ("tcp://localhost:%s" % port)
 	
+	# filtra as mensagens de acordo com o mercado escolhido
 	topicfilter = process_id
 	socket.setsockopt_string(zmq.SUBSCRIBE, topicfilter)
 	while True:
