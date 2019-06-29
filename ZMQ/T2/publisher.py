@@ -5,15 +5,18 @@ from multiprocessing import Process
 import random
 import markets_companies
 
-""" Funcao pub
-		atualiza o valor das acoes de um mercado
-		Recebe como parametros o mercado e o intervalo de tempo em que o valor das acoes sera atualizado	
+""" 
+Funcao pub
+	atualiza o valor das acoes de um mercado
+	Recebe como parametros o mercado e o intervalo de tempo em que o valor das acoes sera atualizado	
 """
 def pub(process_id, sleep_time):
+	# Cria conexao com o broker
 	port = "5559"
 	context = zmq.Context()
 	socket = context.socket(zmq.PUB)
 	socket.connect("tcp://localhost:%s" % port)
+	
 	stock_value = []
 	while True:
 		#publisher_id = random.randrange(0,9999)
@@ -30,7 +33,6 @@ def pub(process_id, sleep_time):
 			messagedata += "<stock"+str(i)+">"+str(stock_value[i])+"</stock"+str(i)+">"
 			logMessage += markets_companies.companies[markets_companies.markets[process_id]][i] +": "+ str(stock_value[i])+"\n"
 
-		#messagedata = stock_value
 		print("%s\n%s" % (markets_companies.markets[process_id], logMessage))
 		# envia o valor da acoes ao broker
 		socket.send_string("%d %s" % (process_id, messagedata))
